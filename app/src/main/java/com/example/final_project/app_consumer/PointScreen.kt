@@ -27,6 +27,7 @@ fun PointScreen(navController: NavController) {
 
     // 유저 ID는 실제 구현에서는 로그인된 유저의 ID를 받아와야 합니다.
     val userId: Long = appViewModel.user_id
+    val point:Long = appViewModel.point
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
@@ -45,7 +46,7 @@ fun PointScreen(navController: NavController) {
             modifier = Modifier.padding(top = 80.dp, bottom = 100.dp)
         )
         Text(
-            text = "사용 가능 : ${appViewModel.point}p",
+            text = "사용 가능 : ${point}p",
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold
         )
@@ -58,10 +59,13 @@ fun PointScreen(navController: NavController) {
         }) {
             Text("새로고침")
         }
+        //디버깅용
+        Text(
+            text = "${userId}p",
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
-    Text(
-        text = "${userId}p",
-        fontSize = 30.sp,
-        fontWeight = FontWeight.Bold
-    )
+
+
 }

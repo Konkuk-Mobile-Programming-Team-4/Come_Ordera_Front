@@ -44,7 +44,7 @@ fun AppNaviGraph(navController: NavHostController) {
     CompositionLocalProvider(
         LocalNavGraphViewModelStoreOwner provides navStoreOwner
     ) {
-        NavHost(navController = navController, startDestination = Routes.Review.route) {
+        NavHost(navController = navController, startDestination = Routes.Point.route) {
             composable(route = Routes.Welcome.route) {
                 WelcomeScreen(navController)
             }
