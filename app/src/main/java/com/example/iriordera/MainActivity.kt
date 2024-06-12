@@ -9,9 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.iriordera.QRScan.QRCodeScannerExample
-import com.example.iriordera.QRScan.QRStoreDetailScreen
-import com.example.iriordera.orderCheck.OrderScreen
+import com.example.iriordera.somin.app_manage.AppNaviGraph
 import com.example.iriordera.ui.theme.IriorderaTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
@@ -31,8 +29,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController)
-//                    OrderScreen()
+                    AppNaviGraph(navController = navController)
                 }
             }
         }

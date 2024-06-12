@@ -1,18 +1,15 @@
-package com.example.iriordera
+package com.example.iriordera.minhyeok
 
 import android.util.Log
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import com.example.iriordera.QRScan.CreateOrderResponse
-import com.example.iriordera.QRScan.QRMenu
-import com.example.iriordera.QRScan.QRStoreDetailResponse
-import com.example.iriordera.orderCheck.Order
+import com.example.iriordera.minhyeok.QRScan.CreateOrderResponse
+import com.example.iriordera.minhyeok.QRScan.QRMenu
+import com.example.iriordera.minhyeok.QRScan.QRStoreDetailResponse
+import com.example.iriordera.minhyeok.orderCheck.Order
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

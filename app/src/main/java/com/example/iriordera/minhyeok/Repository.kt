@@ -1,13 +1,12 @@
-package com.example.iriordera
+package com.example.iriordera.minhyeok
 
-import androidx.compose.runtime.MutableLongState
-import com.example.iriordera.QRScan.CreateOrderRequest
-import com.example.iriordera.QRScan.CreateOrderResponse
-import com.example.iriordera.QRScan.QRStoreDetailRequest
-import com.example.iriordera.QRScan.QRStoreDetailResponse
-import com.example.iriordera.QRScan.QRStoreDetailRetrofitClient
-import com.example.iriordera.orderCheck.GetOrderRetrofitClient
-import com.example.iriordera.orderCheck.Order
+import com.example.iriordera.minhyeok.QRScan.CreateOrderRequest
+import com.example.iriordera.minhyeok.QRScan.CreateOrderResponse
+import com.example.iriordera.minhyeok.QRScan.QRStoreDetailRequest
+import com.example.iriordera.minhyeok.QRScan.QRStoreDetailResponse
+import com.example.iriordera.minhyeok.QRScan.QRStoreDetailRetrofitClient
+import com.example.iriordera.minhyeok.orderCheck.GetOrderRetrofitClient
+import com.example.iriordera.minhyeok.orderCheck.Order
 import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -56,7 +55,7 @@ class Repository @Inject constructor(){
 
     }
 
-    suspend fun createOrderResponse(menu_id : List<Long>, table: Int, user_id : Long, store_id:Long): NetworkResult<CreateOrderResponse?>{
+    suspend fun createOrderResponse(menu_id : List<Long>, table: Int, user_id : Long, store_id:Long): NetworkResult<CreateOrderResponse?> {
         val request = CreateOrderRequest(menu_id, table, user_id, store_id)
 
         return try{

@@ -1,4 +1,4 @@
-package com.example.iriordera.QRScan
+package com.example.iriordera.minhyeok.QRScan
 
 import android.content.Context
 import android.content.pm.PackageManager

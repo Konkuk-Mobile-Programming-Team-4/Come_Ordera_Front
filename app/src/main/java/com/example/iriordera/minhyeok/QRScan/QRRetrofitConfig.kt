@@ -1,4 +1,4 @@
-package com.example.iriordera.QRScan
+package com.example.iriordera.minhyeok.QRScan
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -47,7 +47,7 @@ interface QRStoreDetailAPIService {
     suspend fun qrStoreDetail(@Body request : QRStoreDetailRequest) : Response<QRStoreDetailResponse>
 
     @POST("/store/order")
-    suspend fun createOrder(@Body request :CreateOrderRequest ) : Response<CreateOrderResponse>
+    suspend fun createOrder(@Body request : CreateOrderRequest) : Response<CreateOrderResponse>
 }
 
 object QRStoreDetailRetrofitClient{

@@ -32,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -80,6 +80,15 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.naver.map.compose)
+    implementation(libs.play.services.location)
+    implementation(libs.naver.map.location)
+    implementation(libs.kotlinx.serialization.json)
+    implementation("com.naver.maps:map-sdk:3.18.0")
+    implementation(libs.coil.compose)
+    implementation(libs.landscapist.coil)
+    implementation(libs.androidx.material)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
