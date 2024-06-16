@@ -52,7 +52,7 @@ import kotlinx.serialization.json.JsonNull.content
 fun ReviewScreen(navController: NavController, restaurantViewModel: RestaurantViewModel = viewModel()){
     val state = rememberLazyListState()
 
-    val backgroundImage: Painter = painterResource(id = R.drawable.oderapp)
+//    val backgroundImage: Painter = painterResource(id = R.drawable.oderapp)
 
     Column(
         modifier = Modifier
@@ -89,16 +89,16 @@ fun ReviewScreen(navController: NavController, restaurantViewModel: RestaurantVi
             }
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+//            contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = backgroundImage,
-                contentDescription = "Background Image",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(shape = RoundedCornerShape(0.dp)),
-                contentScale = ContentScale.FillBounds
-            )
+//            Image(
+//                painter = backgroundImage,
+//                contentDescription = "Background Image",
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .clip(shape = RoundedCornerShape(0.dp)),
+//                contentScale = ContentScale.FillBounds
+//            )
 
             LazyColumn(
                 contentPadding = PaddingValues(all = 12.dp),
@@ -118,7 +118,7 @@ fun ReviewScreen(navController: NavController, restaurantViewModel: RestaurantVi
                     ) {
                         Box(    //이름
                             modifier = Modifier
-                                .background(Color(0xFFF0F0F0), shape = RoundedCornerShape(24.dp))
+                                .background(Color.Transparent, shape = RoundedCornerShape(24.dp))
                                 .padding(8.dp)
                                 .wrapContentWidth(Alignment.Start)
                                 .wrapContentHeight(Alignment.CenterVertically)
