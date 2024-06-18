@@ -3,10 +3,9 @@ package com.example.iriordera.somin.app_consumer
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +18,7 @@ import com.example.iriordera.somin.app_manage.AppViewModel
 import com.example.iriordera.somin.app_manage.LocalNavGraphViewModelStoreOwner
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun PointScreen(navController: NavController) {
     val appViewModel: AppViewModel =
@@ -26,14 +26,14 @@ fun PointScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
 
     // 유저 ID는 실제 구현에서는 로그인된 유저의 ID를 받아와야 합니다.
-    val userId: Long = appViewModel.user_id
+    //val userId: Long = appViewModel.user_id
     val point:Long = appViewModel.point
 
-    LaunchedEffect(Unit) {
+   /* LaunchedEffect(Unit) {
         coroutineScope.launch {
             appViewModel.loadPoints(userId)
         }
-    }
+    }*/
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -52,19 +52,19 @@ fun PointScreen(navController: NavController) {
         )
         Button(onClick = {
             coroutineScope.launch {
-                appViewModel.user_id.let{
+                /*appViewModel.user_id.let{
                     appViewModel.loadPoints(userId)
-                }
+                }*/
             }
         }) {
             Text("새로고침")
         }
         //디버깅용
-        Text(
+        /*Text(
             text = "${userId}p",
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold
-        )
+        )*/
     }
 
 

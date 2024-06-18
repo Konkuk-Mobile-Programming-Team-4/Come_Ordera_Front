@@ -14,9 +14,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.iriordera.somin.app_manage.LocalNavGraphViewModelStoreOwner
 
 @Composable
-fun PostReview(navController: NavHostController, restaurantViewModel: RestaurantViewModel = viewModel()){
+fun PostReview(navController: NavHostController){
+    val restaurantViewModel: RestaurantViewModel =
+        viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
+
     var review by remember{
         mutableStateOf("")
     }

@@ -1,87 +1,79 @@
 package com.example.iriordera.somin.app_ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.iriordera.somin.app_manage.AppViewModel
-import com.example.iriordera.somin.app_manage.LocalNavGraphViewModelStoreOwner
+import com.example.iriordera.R
 import com.example.iriordera.somin.app_manage.Routes
+import kotlinx.coroutines.delay
 
 @Composable
 fun SelectScreen(navController: NavHostController) {
-    val appViewModel: AppViewModel =
-        viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
+
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.LightGray),
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.horizontalGradient(
+                    listOf(
+                        Color(234, 32, 90), Color(245, 102, 36)
+                    )
+                )
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_storefront_24),
+            contentDescription = "Store Icon",
+            tint = Color.White,
+            modifier = Modifier
+                .padding(top =270.dp)
+                .size(100.dp) // 아이콘 위치를 조정할 수 있습니다
+        )
+
+        Text(
+            text = "음식을 더 손쉽고 편하게",
+            fontFamily = FontFamily(Font(R.font.jalnan)),
+            fontSize = 16.sp,
+            color = Color.White,
+            modifier = Modifier.padding(top = 0.dp)
+        )
 
         Text(
             text = "이리오더라",
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 40.sp,
-            color = Color.Red)
-
-        Button(
-            onClick = {
-                navController.navigate(Routes.Login.route)
-            },
-            modifier = Modifier
-                .padding(10.dp)
-                .height(70.dp)
-                .width(300.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.outlinedButtonColors(Color.White),
-            shape = CutCornerShape(0.dp),
-            border = BorderStroke(2.dp, Color.Black),
-        ) {
-            Text(
-                text = "로그인",
-                modifier = Modifier,
-                color = Color.Black,
-                fontSize = 30.sp,
-            )
-        }
-        Button(
-            onClick = {
-                navController.navigate(Routes.Register.route)
-            },
-            modifier = Modifier
-                .padding(10.dp)
-                .height(70.dp)
-                .width(300.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.outlinedButtonColors(Color.LightGray),
-            shape = CutCornerShape(0.dp),
-            border = BorderStroke(2.dp, Color.Black),
-        ) {
-            Text(
-                text = "회원가입",
-                modifier = Modifier,
-                color = Color.Black,
-                fontSize = 30.sp,
-            )
+            fontFamily = FontFamily(Font(R.font.jalnan)),
+            fontSize = 50.sp,
+            color = Color.White,
+            modifier = Modifier.padding(top = 0.dp)
+        )
+    }
+    LaunchedEffect(key1 = Unit) {
+        delay(1500)
+        navController.navigate(Routes.Login.route){
+            popUpTo(Routes.Select.route){
+                inclusive = true
+            }
+            launchSingleTop = true
         }
     }
+
 }

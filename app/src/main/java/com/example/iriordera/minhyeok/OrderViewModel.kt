@@ -83,6 +83,14 @@ class OrderViewModel @Inject constructor(private val repository: Repository): Vi
         this.store_id = store_id
     }
 
+    fun setUserId(userId: Long){
+        this.user_id = userId
+    }
+
+    fun getTableNumber() : Int{
+        return table
+    }
+
     //주문 생성을 위한 필드, 메서드
     private val _createOrderResponse = MutableStateFlow<NetworkResult<CreateOrderResponse?>?>(null)
     val createOrderResponse : StateFlow<NetworkResult<CreateOrderResponse?>?> = _createOrderResponse

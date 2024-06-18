@@ -1,99 +1,113 @@
 package com.example.iriordera.somin.app_ui_sell
 
-import androidx.compose.foundation.layout.Arrangement
+import android.app.Activity
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.iriordera.R
 import com.example.iriordera.somin.app_manage.AppViewModel
 import com.example.iriordera.somin.app_manage.LocalNavGraphViewModelStoreOwner
 import com.example.iriordera.somin.app_manage.Routes
+import com.example.iriordera.somin.storeHomePreview.OrderStatusPreview
+import com.example.iriordera.somin.storeHomePreview.ReviewPreview
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreHomeScreen(navController: NavHostController) {
-
     val appViewModel: AppViewModel =
         viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
 
+    val context = LocalContext.current
+
+    BackHandler {
+        (context as? Activity)?.finish()
+    }
+
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Button(
-            onClick = {
-                navController.navigate(Routes.OrderStatus.route)
-            },
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp)
-                .height(300.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.outlinedButtonColors(Color.LightGray),
-            shape = CutCornerShape(0.dp)
+                .height(65.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(Color(234, 32, 90), Color(245, 102, 36))
+                    )
+                )
         ) {
-            Text(
-                text = "주문 현황 확인",
-                modifier = Modifier,
-                color = Color.Black,
-                fontSize = 50.sp,
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "이리오더라",
+                        color = Color.White,
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.W400,
+                        fontFamily = FontFamily(Font(R.font.jalnan)),
+                        modifier = Modifier.padding(bottom = 0.dp)
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         }
-
-        Button(
-            onClick = {
-                navController.navigate(Routes.StoreMenuRegister.route)
-            },
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(200.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.outlinedButtonColors(Color.LightGray),
-            shape = CutCornerShape(0.dp)
-        ) {
-            Text(
-                text = "메뉴 등록",
-                modifier = Modifier,
-                color = Color.Black,
-                fontSize = 50.sp,
-            )
-        }
+                .fillMaxWidth(0.9f)
+                .height(450.dp)
+                .clickable {
+                    navController.navigate(Routes.OrderStatus.route) {
+                        popUpTo(Routes.StoreHome.route) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
 
-        Button(
-            onClick = {
-                navController.navigate(Routes.Review.route)
-            },
+                }
+        ) {
+            OrderStatusPreview()
+        }
+        Divider()
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(200.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.outlinedButtonColors(Color.LightGray),
-            shape = CutCornerShape(0.dp)
+                .fillMaxWidth(0.9f)
+                .fillMaxHeight()
+                .clickable {
+                    navController.navigate(Routes.Review.route){
+                        popUpTo(Routes.StoreHome.route) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
         ) {
-            Text(
-                text = "리뷰 관리",
-                modifier = Modifier,
-                color = Color.Black,
-                fontSize = 50.sp,
-            )
+            ReviewPreview()
         }
-
     }
 }

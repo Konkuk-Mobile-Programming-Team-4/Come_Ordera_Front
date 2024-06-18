@@ -1,36 +1,39 @@
 package com.example.iriordera.minhyeok.QRScan
 
-import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.BottomNavigation
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,20 +47,29 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.iriordera.minhyeok.NetworkResult
 import com.example.iriordera.minhyeok.OrderViewModel
 import com.example.iriordera.R
+import com.example.iriordera.somin.app_manage.AppViewModel
+import com.example.iriordera.somin.app_manage.LocalNavGraphViewModelStoreOwner
 import com.example.iriordera.ui.theme.IriorderaTheme
-import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
-fun QRStoreDetailScreen(orderViewModel: OrderViewModel = hiltViewModel(), qrResponse:String, navController: NavHostController) {
+fun QRStoreDetailScreen(qrResponse:String, navController: NavHostController) {
+
+    val orderViewModel: OrderViewModel =
+        viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
 
     val infos = qrResponse.split(",")
 
@@ -82,7 +94,6 @@ fun QRStoreDetailScreen(orderViewModel: OrderViewModel = hiltViewModel(), qrResp
 
                 Column {
                     StoreDetail(orderViewModel, infos[1], navController)
-//                    StoreDetail(response = response, table_num = infos[1])
                 }
             }
         }
@@ -95,69 +106,6 @@ fun QRStoreDetailScreen(orderViewModel: OrderViewModel = hiltViewModel(), qrResp
     }
 }
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun StoreDetail(response: QRStoreDetailResponse, table_num :String) {
-//
-//    Scaffold(
-//        topBar = {
-//            TopAppBar(
-//                title = {
-//                    Row (verticalAlignment = Alignment.CenterVertically){
-//                        Image(painter = painterResource(id = R.drawable.kukbab), contentDescription = "", modifier = Modifier
-//                            .size(60.dp)
-//                            .clip(CircleShape),
-//                            contentScale = ContentScale.Crop,)
-//                        Column (modifier = Modifier.padding(start = 10.dp)){
-//                            Text(response.name, fontWeight = FontWeight.Bold)
-//                            Text(text = response.location, fontSize = 12.sp)
-//                        }
-//                        Spacer(modifier = Modifier.width(130.dp))
-//                        Column (modifier = Modifier.width(300.dp), horizontalAlignment = Alignment.CenterHorizontally){
-//                            Text(text = "테이블 번호", fontSize = 13.sp, modifier = Modifier.padding(top = 5.dp))
-//                            Text(text = table_num, fontSize = 25.sp)
-//                        }
-//                    }
-//                },
-//                modifier = Modifier.padding(top = 15.dp)
-//            )
-//        }
-//    ) { paddingValues ->
-//        Column (modifier = Modifier.padding(paddingValues = paddingValues)){
-//            Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 20.dp, start = 10.dp)){
-//                Button(onClick = {  }, modifier = Modifier.padding(end = 10.dp)) {
-//                    Text(text = "대표메뉴")
-//                }
-//                Button(onClick = {  }, modifier = Modifier.padding(end = 10.dp)) {
-//                    Text(text = "인기메뉴")
-//                }
-//                Button(onClick = {  }, modifier = Modifier.padding(end = 10.dp)) {
-//                    Text(text = "세트메뉴")
-//                }
-//                Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "", modifier = Modifier.padding(end = 5.dp))
-//                Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "")
-//            }
-//            Text(text = "대표메뉴", fontSize = 30.sp, modifier = Modifier.padding(top = 10.dp, start = 10.dp), fontWeight = FontWeight.Bold)
-//
-//            for(menu in response.menus){
-//
-//                Row (modifier = Modifier.padding(10.dp).width(400.dp), horizontalArrangement = Arrangement.SpaceBetween){
-//                    Checkbox(checked = false, onCheckedChange = {})
-//                    Column (modifier = Modifier.padding(top = 5.dp)) {
-//                        Text(text = menu.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-//                        Text(
-//                            text = menu.introduction, fontSize = 15.sp, modifier = Modifier
-//                                .width(200.dp)
-//                                .padding(5.dp)
-//                        )
-//                    }
-//                    Text(text = menu.price.toString() + "원", fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 10.dp))
-//                }
-//            }
-//        }
-//    }
-//}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreDetail(viewmodel : OrderViewModel, table_num :String, navController: NavHostController) {
@@ -168,57 +116,111 @@ fun StoreDetail(viewmodel : OrderViewModel, table_num :String, navController: Na
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Row (verticalAlignment = Alignment.CenterVertically){
-                        Image(painter = painterResource(id = R.drawable.kukbab), contentDescription = "", modifier = Modifier
-                            .size(60.dp)
-                            .clip(CircleShape),
-                            contentScale = ContentScale.Crop,)
-                        Column (modifier = Modifier.padding(start = 10.dp)){
-                            Text(text = viewmodel.storeInfo.component1().name, fontWeight = FontWeight.Bold)
-                            Text(text = viewmodel.storeInfo.component1().location, fontSize = 12.sp)
-                        }
-                        Spacer(modifier = Modifier.width(130.dp))
-                        Column (modifier = Modifier.width(300.dp), horizontalAlignment = Alignment.CenterHorizontally){
-                            Text(text = "테이블 번호", fontSize = 13.sp, modifier = Modifier.padding(top = 5.dp))
-                            Text(text = table_num, fontSize = 25.sp)
-                        }
-                    }
-                },
-                modifier = Modifier
-                    .padding(top = 15.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            listOf(
-                                Color(234, 32, 90),
-                                Color(245, 102, 36)
-                            )
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.horizontalGradient(
+                        listOf(
+                            Color(234, 32, 90),
+                            Color(245, 102, 36)
                         )
-                    ),
-            )
+                    )
+                )) {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
+                    title = {
+                        Row {
+                            Image(
+                                painter = painterResource(id = R.drawable.kukbab),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .size(60.dp)
+                                    .padding(top = 5.dp)
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop,
+                            )
+                            Column(modifier = Modifier.padding(start = 10.dp, top = 5.dp)) {
+                                Text(
+                                    text = viewmodel.storeInfo.component1().name,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = viewmodel.storeInfo.component1().location,
+                                    fontSize = 12.sp,
+                                    color = Color.White
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(130.dp))
+                            Column(
+                                modifier = Modifier.width(300.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "테이블 번호",
+                                    fontSize = 13.sp,
+                                    modifier = Modifier.padding(top = 5.dp),
+                                    color = Color.White
+                                )
+                                Text(text = table_num, fontSize = 25.sp, color = Color.White)
+                            }
+                        }
+                    },
+                )
+            }
         }
     ) { paddingValues ->
         val scroll = rememberScrollState()
+        var clicked by remember {
+            mutableStateOf(false)
+        }
+        var menuText by remember {
+            mutableStateOf("대표메뉴")
+        }
         Column (modifier = Modifier
             .padding(paddingValues = paddingValues)
             .verticalScroll(scroll),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 20.dp, start = 10.dp)){
-                Button(onClick = {  }, modifier = Modifier.padding(end = 10.dp)) {
-                    Text(text = "대표메뉴")
+            Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 10.dp, start = 10.dp)){
+                OutlinedButton(
+                    onClick = { menuText = "대표메뉴" },
+                    modifier = Modifier.padding(end = 10.dp),
+                    border = BorderStroke(
+                        width = 3.dp, // 테두리 두께 설정
+                        color = Color(245, 50, 50)
+                    ),
+                ) {
+                    Text(text = "대표메뉴", color = Color.Black)
                 }
-                Button(onClick = {  }, modifier = Modifier.padding(end = 10.dp)) {
-                    Text(text = "인기메뉴")
+                OutlinedButton(
+                    onClick = { menuText = "인기메뉴" },
+                    modifier = Modifier.padding(end = 10.dp),
+                    border = BorderStroke(
+                        width = 3.dp, // 테두리 두께 설정
+                        color = Color(245, 50, 50)
+                    ),
+                ) {
+                    Text(text = "인기메뉴", color = Color.Black)
                 }
-                Button(onClick = {  }, modifier = Modifier.padding(end = 10.dp)) {
-                    Text(text = "세트메뉴")
+                OutlinedButton(
+                    onClick = { menuText = "세트메뉴" },
+                    modifier = Modifier.padding(end = 7.dp),
+                    border = BorderStroke(
+                        width = 3.dp, // 테두리 두께 설정
+                        color = Color(245, 50, 50)
+                    ),
+                ) {
+                    Text(text = "세트메뉴", color = Color.Black)
                 }
-                Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "", modifier = Modifier.padding(end = 5.dp))
-                Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "")
+                IconButton(onClick = { clicked = !clicked }) {
+                    Icon(imageVector = Icons.Default.Favorite, contentDescription = "", modifier = Modifier
+                        .padding(end = 5.dp), tint = if(clicked) Color.Red else Color.Black
+                    )
+                }
+                Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "", modifier = Modifier.padding(end = 5.dp))
             }
-            Text(text = "대표메뉴", fontSize = 30.sp, modifier = Modifier.padding(top = 10.dp, start = 10.dp), fontWeight = FontWeight.Bold)
+            Text(text = menuText, fontSize = 30.sp, modifier = Modifier.padding(top = 10.dp, start = 10.dp), fontWeight = FontWeight.Bold)
 
             for(i in 0..<viewmodel.getSize()){
 
@@ -235,7 +237,6 @@ fun StoreDetail(viewmodel : OrderViewModel, table_num :String, navController: Na
                         .width(400.dp), horizontalArrangement = Arrangement.SpaceBetween){
                         Checkbox(checked = menuItem.isChecked, onCheckedChange = {viewmodel.changeChecked(i)}, modifier = Modifier.padding(top = 20.dp))
                         Column (modifier = Modifier.padding(top = 5.dp)) {
-                            Text(text = menuItem.id.toString())
                             Text(text = menuItem.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                             Text(
                                 text = menuItem.introduction, fontSize = 15.sp, modifier = Modifier
@@ -243,7 +244,7 @@ fun StoreDetail(viewmodel : OrderViewModel, table_num :String, navController: Na
                                     .padding(5.dp)
                             )
                         }
-                        Text(text = menuItem.price.toString() + "원", fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 20.dp))
+                        Text(text = menuItem.price.toString() + "원", fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 10.dp, end = 12.dp))
                     }
                 }
             }

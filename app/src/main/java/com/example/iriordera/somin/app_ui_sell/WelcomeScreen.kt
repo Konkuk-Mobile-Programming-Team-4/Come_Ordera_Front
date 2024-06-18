@@ -1,54 +1,77 @@
 package com.example.iriordera.somin.app_ui_sell
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.iriordera.somin.app_manage.AppViewModel
-import com.example.iriordera.somin.app_manage.LocalNavGraphViewModelStoreOwner
+import com.example.iriordera.R
 import com.example.iriordera.somin.app_manage.Routes
+import kotlinx.coroutines.delay
 
 @Composable
 fun WelcomeScreen(navController: NavHostController) {
-    val appViewModel: AppViewModel = viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
-    val userID = "소민 "
-    Column(modifier = Modifier.fillMaxSize()
-        .clickable {navController.navigate(Routes.StoreRegister.route)},
-        verticalArrangement = Arrangement.Center,
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.horizontalGradient(
+                    listOf(
+                        Color(234, 32, 90), Color(245, 102, 36)
+                    )
+                )
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-        Text(
-            text = "${/*appViewModel.userID*/userID}님 환영합니다.",
-            fontSize = 30.sp,
-            fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.padding(bottom = 30.dp)
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_storefront_24),
+            contentDescription = "Store Icon",
+            tint = Color.White,
+            modifier = Modifier
+                .padding(top =70.dp)
+                .size(200.dp) // 아이콘 위치를 조정할 수 있습니다
         )
         Text(
-            text = "가게를 먼저 등록해주세요!!",
-            fontSize = 30.sp,
-            fontWeight = FontWeight.ExtraBold
+            text = "새로 오신걸 환영해요!",
+            fontFamily = FontFamily(Font(R.font.jalnan)),
+            fontSize = 24.sp,
+            color = Color.White,
+            fontWeight = FontWeight.Normal,
+            modifier = Modifier.padding(top = 90.dp)
         )
-        /*LaunchedEffect(key1 = Unit) {//n초 후에 이동, 키값 상수 : 변화X, state 주는 것도 가능
-            delay(3000)
-            //appViewModel.loginStatus.value = true //로그인 완료시
-            //navController.navigate(Routes.StoreRegister.route) //가게 등록 화면으로 이동
-            navController.navigate(Routes.StoreHome.route)
-        }*/
-        /*Button(onClick = {
-            //appViewModel.loginStatus.value = true
-            navController.navigate(Routes.StoreRegister.route)
-        }) {
-            Text(text = "생성하러가기")
-        }*/
+        Text(
+            text = "가게를 먼저 등록해주세요!",
+            fontFamily = FontFamily(Font(R.font.jalnan)),
+            fontSize = 27.sp,
+            color = Color.White,
+            modifier = Modifier.padding(top = 20.dp)
+        )
+
+        LaunchedEffect(key1 = Unit) {
+            delay(1500)
+            navController.navigate(Routes.StoreRegister.route){
+                popUpTo(Routes.SellWelcome.route) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        }
+
     }
 }

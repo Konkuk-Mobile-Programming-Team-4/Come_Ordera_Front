@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.navigation.NavHostController
+import com.example.iriordera.somin.app_manage.BottomNavItem
 import com.example.iriordera.somin.app_manage.Routes
 import retrofit2.Call
 import retrofit2.Callback
@@ -78,7 +79,7 @@ class RestaurantViewModel(private val application: Application): AndroidViewMode
                     reviews.add(it)
                 }
 
-                navController.navigate(Routes.RestaurantScreen.route)
+                navController.navigate(BottomNavItem.RestaurantScreen.route)
             }
 
             override fun onFailure(call: Call<Reviews>, t: Throwable) {
