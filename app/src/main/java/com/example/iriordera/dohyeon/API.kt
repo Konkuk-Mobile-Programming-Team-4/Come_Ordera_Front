@@ -18,4 +18,10 @@ interface API {
 
     @POST("/review")
     fun postReview(@Body postReview: PostReview): Call<ReviewRespone>
+
+    @GET("/point")
+    fun getPoint(@Query("userId")id :Long, @Query("point")point:Long):Call<PointResponse>
+
+    @GET("/order/delete")
+    fun delOrder(@Query("orderId")id :Long):Call<Unit>
 }

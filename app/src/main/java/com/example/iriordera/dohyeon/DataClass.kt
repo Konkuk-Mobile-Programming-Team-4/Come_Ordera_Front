@@ -53,6 +53,11 @@ data class ReviewRespone(
     @SerializedName("review_id") var id: Long
 )
 
+data class PointResponse(
+    @SerializedName("code") var code:Int,
+    @SerializedName("message") var message:String
+)
+
 data class PostReview(
     @SerializedName("user_id") var u_id: Long,
     @SerializedName("store_id") var s_id: Long,

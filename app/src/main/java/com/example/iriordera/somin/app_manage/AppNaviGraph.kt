@@ -24,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.example.iriordera.dohyeon.ConsumerScreen
+import com.example.iriordera.dohyeon.PostReview
 import com.example.iriordera.dohyeon.RestaurantMenu
 import com.example.iriordera.dohyeon.RestaurantScreen
 import com.example.iriordera.dohyeon.RestaurantViewModel
@@ -53,6 +54,8 @@ sealed class Routes(val route: String) {
     object Review : Routes("Review")
     object Point : Routes("Point")
     object QRScan : Routes("QRScan")
+
+    object PostReview : Routes("PostReview")
 }
 
 @Composable
@@ -135,8 +138,7 @@ fun AppNaviGraph(
                     }
                     composable(route = BottomNavItem.ReviewScreen.route) {
                         com.example.iriordera.dohyeon.ReviewScreen(
-                            navController,
-                            restaurantViewModel
+                            navController
                         )
                     }
                     composable(route = BottomNavItem.ConsumerScreen.route + "?userid={consumerUserId}",
@@ -153,6 +155,9 @@ fun AppNaviGraph(
                     }
                     composable(route = BottomNavItem.OrderCheck.route) {
                         OrderScreen(navController = navController)
+                    }
+                    composable(route = Routes.PostReview.route) {
+                        PostReview(navController = navController)
                     }
                 }
             }

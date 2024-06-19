@@ -1,6 +1,7 @@
 package com.example.iriordera.dohyeon
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,10 +11,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -30,6 +33,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -38,7 +42,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -58,8 +64,10 @@ import androidx.navigation.NavHostController
 import com.example.iriordera.BottomNavigationView
 import com.example.iriordera.R
 import com.example.iriordera.minhyeok.OrderViewModel
+import com.example.iriordera.somin.app_manage.AppViewModel
 import com.example.iriordera.somin.app_manage.LocalNavGraphViewModelStoreOwner
 import com.example.iriordera.somin.app_manage.Routes
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -72,6 +80,9 @@ fun ConsumerScreen(
         viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
 
     val restaurantViewModel: RestaurantViewModel =
+        viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
+
+    val appViewModel: AppViewModel =
         viewModel(viewModelStoreOwner = LocalNavGraphViewModelStoreOwner.current)
 
     var text by remember {
@@ -88,7 +99,11 @@ fun ConsumerScreen(
 
     if (userid != null) {
         orderViewModel.setUserId(userid)
+        appViewModel.loadPoints(userid)
     }
+
+    val coroutineScope = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = count) {
     }
@@ -97,6 +112,9 @@ fun ConsumerScreen(
         topBar = {
             TopAppBar(title = {
                 var tableNum:String = orderViewModel.getTableNumber().toString() + "번 테이블"
+                if(orderViewModel.getTableNumber()==0){
+                    tableNum = ""
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -148,8 +166,16 @@ fun ConsumerScreen(
                         shape = RoundedCornerShape(15.dp)
                     ),
                 containerColor = Color.White,
-                shape = RoundedCornerShape(10.dp),
-                onClick = { navController.navigate(Routes.QRScan.route) }) {
+                onClick = {
+                    if(orderViewModel.getOrderId() == 0L){
+                        navController.navigate(Routes.QRScan.route)
+                    }
+                    else{
+                        coroutineScope.launch {
+                            snackBarHostState.showSnackbar("이미 생성한 주문이 있습니다.")
+                        }
+                    }
+                }) {
                 Text(
                     modifier = Modifier
                         .padding(
@@ -265,6 +291,53 @@ fun ConsumerScreen(
                                 }
                             }
                         }
+                    }
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                listOf(
+                                    Color(234, 32, 90),
+                                    Color(245, 102, 36)
+                                )
+                            )
+                        )
+                ) {
+                    Column (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .padding(25.dp)
+                    ){
+                        Text(text = "나의 포인트",
+                            color = Color.White)
+                        var point:Long = appViewModel.point
+                        var pointString = ""
+                        var check = 0
+                        while(point>0){
+                            val temp = (point % 10).toString()
+                            pointString="$temp$pointString"
+                            point /= 10
+                            check++
+                            if(check%3 == 0 && point != 0L){
+                                pointString =",$pointString"
+                            }
+                        }
+                        if (appViewModel.point == 0L){
+                            pointString = "0"
+                        }
+                        Text(text = pointString+"P"
+                        , fontSize = 60.sp,
+                            color = Color.White)
                     }
                 }
             }

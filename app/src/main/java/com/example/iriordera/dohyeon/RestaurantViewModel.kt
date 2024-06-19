@@ -21,7 +21,6 @@ class RestaurantViewModel(private val application: Application): AndroidViewMode
 
     var reviews = mutableStateListOf<Review>()
 
-
     fun searchRequest(text:String):Int {
         val retrofit = RetrofitInstance
         var storeList = mutableStateListOf<Store>()
@@ -50,8 +49,6 @@ class RestaurantViewModel(private val application: Application): AndroidViewMode
     }
 
     fun detailRequest(id:Long, navController:NavHostController){
-        val retrofit = RetrofitInstance
-
         RetrofitInstance.apiService.getDetail(id).enqueue(object : Callback<Detail> {
             override fun onResponse(
                 call: Call<Detail>,
@@ -88,15 +85,13 @@ class RestaurantViewModel(private val application: Application): AndroidViewMode
         })
     }
 
-    fun postReview(content:String, star:String){
+    fun postReview(content:String, star:String, user_id:Long, store_id:Long){
         var postReview = PostReview(
-            u_id = "3".toLong(),
-            s_id = "1".toLong(),
+            u_id = user_id,
+            s_id = store_id,
             content = content,
             star = star.toInt()
         )
-
-        val retrofit = RetrofitInstance
 
         RetrofitInstance.apiService.postReview(postReview).enqueue(object : Callback<ReviewRespone> {
             override fun onResponse(call: Call<ReviewRespone>, response: Response<ReviewRespone>) {
